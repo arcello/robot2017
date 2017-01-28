@@ -38,6 +38,15 @@ repositories {
 }
 
 dependencies {
+	testCompile 'junit:junit:4.12'
+	testCompile 'com.google.protobuf:protobuf-java:3.0.0'
+	testCompile 'io.grpc:grpc-stub:1.0.0-pre2'
+	testCompile 'io.grpc:grpc-protobuf:1.0.0-pre2'
+	testCompile 'com.github.blair-robot-project:449-central-repo:v4.0.0-WPILib2017'
+	testCompile wpilib()
+	testCompile talonSrx()
+	testCompile fileTree(dir: "lib", include: "*.jar")
+
 	compile 'com.google.protobuf:protobuf-java:3.0.0'
 	compile 'io.grpc:grpc-stub:1.0.0-pre2'
 	compile 'io.grpc:grpc-protobuf:1.0.0-pre2'
@@ -135,4 +144,12 @@ task('copyResources', dependsOn: convertFiles){
 
 artifacts {
 	archives genJavadoc
+}
+
+//tasks.withType(Test) {
+//	systemProperty "java.library.path", "./test/resources/fake/wpilibJavaJNI"
+//}
+
+test {
+	systemProperty 'java.library.path', System.getProperty('java.library.path') +  new File('./test/resources/fake/wpilibJavaJNI').getCanonicalFile();
 }
