@@ -151,5 +151,7 @@ artifacts {
 //}
 
 test {
-	systemProperty 'java.library.path', System.getProperty('java.library.path') +  new File('./test/resources/fake/wpilibJavaJNI').getCanonicalFile();
+	String nf = new File('./src/test/resources/fake').getCanonicalPath()
+	String p = System.getProperty('java.library.path')
+	systemProperty 'java.library.path', p.substring(0, p.length() - 1) + nf
 }
