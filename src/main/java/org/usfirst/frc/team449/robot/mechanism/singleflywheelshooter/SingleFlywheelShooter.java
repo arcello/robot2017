@@ -19,6 +19,7 @@ public class SingleFlywheelShooter extends MappedSubsystem {
 	/**
 	 * Counts per revolution
 	 */
+	private UnitlessCANTalonSRX screw;
 
 	private long startTime;
 	private double maxError = 0;
@@ -29,6 +30,7 @@ public class SingleFlywheelShooter extends MappedSubsystem {
 		this.map = map;
 		this.talon = new UnitlessCANTalonSRX(map.getTalon());
 		System.out.println("Shooter F: " + talon.canTalon.getF());
+		this.screw = new UnitlessCANTalonSRX(map.getScrew());
 	}
 
 	/**
@@ -78,6 +80,14 @@ public class SingleFlywheelShooter extends MappedSubsystem {
 		}
 	}
 
+	/**
+	 * Sets the Archimedes Screw to go at a speed between 1 and 0, where 1 is max speed.
+	 *
+	 * @param sp The speed to go at.
+	 */
+	public void setScrewVbusSpeed(double sp) {
+		screw.setPercentVbus(sp);
+	}
 
 	@Override
 	protected void initDefaultCommand() {
