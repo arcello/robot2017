@@ -12,6 +12,7 @@ import org.usfirst.frc.team449.robot.drive.DriveSubsystem;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ExecuteProfile;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.OpTankDrive;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ois.TankOI;
+import org.usfirst.frc.team449.robot.mechanism.doubleflywheelshooter.commands.PIDTune;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,16 +50,16 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		rightMaster = new UnitlessCANTalonSRX(map.getRightMaster());
 		leftMaster = new UnitlessCANTalonSRX(map.getLeftMaster());
 
-		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getRightSlaveList()) {
-			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
-			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-			talonObject.canTalon.set(map.getRightMaster().getPort());
-		}
-		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getLeftSlaveList()) {
-			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
-			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-			talonObject.canTalon.set(map.getLeftMaster().getPort());
-		}
+//		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getRightSlaveList()) {
+//			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
+//			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//			talonObject.canTalon.set(map.getRightMaster().getPort());
+//		}
+//		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getLeftSlaveList()) {
+//			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
+//			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//			talonObject.canTalon.set(map.getLeftMaster().getPort());
+//		}
 
 		// TODO take this out
 		leftTPointStatus = new CANTalon.MotionProfileStatus();

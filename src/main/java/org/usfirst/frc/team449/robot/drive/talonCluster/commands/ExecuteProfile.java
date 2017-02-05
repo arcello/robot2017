@@ -147,6 +147,9 @@ public class ExecuteProfile extends ReferencingCommand {
 
 			// Send the point to the Talon's buffer
 			tcd.leftMaster.canTalon.pushMotionProfileTrajectory(point);
+
+			point.position = -point.position;
+			point.velocity = -point.velocity;
 			tcd.rightMaster.canTalon.pushMotionProfileTrajectory(point);
 		}
 
