@@ -11,6 +11,7 @@ import org.usfirst.frc.team449.robot.components.UnitlessCANTalonSRX;
 import org.usfirst.frc.team449.robot.drive.DriveSubsystem;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ExecuteProfile;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.OpTankDrive;
+import org.usfirst.frc.team449.robot.drive.talonCluster.commands.PIDTest;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ois.TankOI;
 import org.usfirst.frc.team449.robot.mechanism.doubleflywheelshooter.commands.PIDTune;
 
@@ -89,8 +90,8 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	 * @param right Right throttle value
 	 */
 	public void setDefaultThrottle(double left, double right) {
-//		setPIDThrottle(left, right);
-		setVBusThrottle(1, 1);
+		setVBusThrottle(left, right);
+//		setVBusThrottle(1, 1);
 	}
 
 	public void logData() {
@@ -136,7 +137,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		}
 
 
-		setDefaultCommand(new ExecuteProfile(this));
+		setDefaultCommand(new PIDTest(this));
 //		setDefaultCommand(new OpTankDrive(this, oi));
 
 		startTime = System.nanoTime();
