@@ -31,6 +31,8 @@ public class Robot extends IterativeRobot {
 
 	public static TalonClusterDrive driveSubsystem;
 
+	public static org.usfirst.frc.team449.robot.vision.CameraSubsystem cameraSubsystem;
+
 	public static OI2017ArcadeGamepad oiSubsystem;
 
 	private static maps.org.usfirst.frc.team449.robot.Robot2017Map.Robot2017 cfg;
@@ -51,6 +53,8 @@ public class Robot extends IterativeRobot {
 		driveSubsystem = new TalonClusterDrive(cfg.getDrive(), oiSubsystem);
 
 		System.out.println("Constructed drive");
+
+		cameraSubsystem = new org.usfirst.frc.team449.robot.vision.CameraSubsystem(cfg.getCameraOi());
 
 		//		climberSubsystem = new ClimberSubsystem(cfg.getClimber(), oiSubsystem);
 		//		doubleFlywheelShooterSubsystem = new DoubleFlywheelShooter(cfg.getDoubleFlywheelShooter());

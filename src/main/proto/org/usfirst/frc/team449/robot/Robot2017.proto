@@ -7,6 +7,7 @@ import "org/usfirst/frc/team449/robot/drive/talonCluster/TalonClusterDrive.proto
 import "org/usfirst/frc/team449/robot/mechanism/climber/Climber.proto";
 import "org/usfirst/frc/team449/robot/mechanism/intake/Intake2017.proto";
 import "org/usfirst/frc/team449/robot/mechanism/pneumatics/PneumaticSystem.proto";
+import "org/usfirst/frc/team449/robot/vision/Camera.proto";
 
 option java_package = "maps.org.usfirst.frc.team449.robot";
 option java_outer_classname = "Robot2017Map";
@@ -20,5 +21,6 @@ message Robot2017 {
 	required SingleFlywheelShooter shooter = 5;
     required Intake2017 intake = 7;
 	required PneumaticSystem pneumatics = 8;
+	required CamRobot camera_oi = 9;
 
 }
