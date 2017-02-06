@@ -1,6 +1,7 @@
 package org.usfirst.frc.team449.robot.components;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
