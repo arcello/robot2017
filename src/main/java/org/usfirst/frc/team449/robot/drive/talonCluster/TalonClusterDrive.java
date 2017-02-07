@@ -9,11 +9,9 @@ import maps.org.usfirst.frc.team449.robot.components.UnitlessCANTalonSRXMap;
 import org.usfirst.frc.team449.robot.components.NavxSubsystem;
 import org.usfirst.frc.team449.robot.components.UnitlessCANTalonSRX;
 import org.usfirst.frc.team449.robot.drive.DriveSubsystem;
-import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ExecuteProfile;
-import org.usfirst.frc.team449.robot.drive.talonCluster.commands.OpTankDrive;
-import org.usfirst.frc.team449.robot.drive.talonCluster.commands.PIDTest;
-import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ois.TankOI;
-import org.usfirst.frc.team449.robot.mechanism.doubleflywheelshooter.commands.PIDTune;
+import org.usfirst.frc.team449.robot.drive.talonCluster.commands.OpArcadeDrive;
+import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ois.ArcadeOI;
+import org.usfirst.frc.team449.robot.oi.OI2017ArcadeGamepad;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +30,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	public AHRS navx;
 	public ToleranceBufferAnglePIDMap.ToleranceBufferAnglePID turnPID;
 	public ToleranceBufferAnglePIDMap.ToleranceBufferAnglePID straightPID;
-	public TankOI oi;
+	public ArcadeOI oi;
 	// TODO take this out after testing
 	public CANTalon.MotionProfileStatus leftTPointStatus;
 	public CANTalon.MotionProfileStatus rightTPointStatus;
@@ -41,7 +39,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	double maxSpeed;
 
 	public TalonClusterDrive(maps.org.usfirst.frc.team449.robot.drive.talonCluster.TalonClusterDriveMap
-			                         .TalonClusterDrive map, TankOI oi) {
+			                         .TalonClusterDrive map, ArcadeOI oi) {
 		super(map.getDrive());
 		this.map = map;
 		this.oi = oi;
@@ -144,10 +142,11 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		}
 
 
-		setDefaultCommand(new OpTankDrive(this, oi));
-//		setDefaultCommand(new OpTankDrive(this, oi));
+		setDefaultCommand(new OpArcadeDrive(this, oi));
 
 		startTime = System.nanoTime();
+		//setDefaultCommand(new ExecuteProfile(this));
+		setDefaultCommand(new OpArcadeDrive(this, (OI2017ArcadeGamepad) oi));
 	}
 
 	public double getGyroOutput() {

@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+option java_package = "maps.org.usfirst.frc.team449.robot.oi";
+option java_outer_classname = "OI2017ArcadeGamepadMap";
+
+message OI2017ArcadeGamepad {
+	required int32 gamepad = 1;
+	required int32 rot_stick = 2;
+	required int32 fwd_stick = 3;
+}
