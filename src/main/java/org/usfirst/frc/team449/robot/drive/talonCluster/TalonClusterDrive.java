@@ -50,16 +50,35 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		rightMaster = new UnitlessCANTalonSRX(map.getRightMaster());
 		leftMaster = new UnitlessCANTalonSRX(map.getLeftMaster());
 
-//		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getRightSlaveList()) {
-//			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
-//			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//			talonObject.canTalon.set(map.getRightMaster().getPort());
-//		}
-//		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getLeftSlaveList()) {
-//			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
-//			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//			talonObject.canTalon.set(map.getLeftMaster().getPort());
-//		}
+//		rightMaster = new UnitlessCANTalonSRX(map.getRightSlave(1));
+//		leftMaster = new UnitlessCANTalonSRX(map.getLeftSlave(1));
+
+//		UnitlessCANTalonSRX sl0 = new UnitlessCANTalonSRX(map.getLeftSlave(0));
+//		sl0.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		sl0.canTalon.set(map.getLeftMaster().getPort());
+//
+//		UnitlessCANTalonSRX sr0 = new UnitlessCANTalonSRX(map.getRightSlave(0));
+//		sr0.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		sr0.canTalon.set(map.getRightMaster().getPort());
+//
+//		UnitlessCANTalonSRX sl1 = new UnitlessCANTalonSRX(map.getLeftSlave(1));
+//		sl1.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		sl1.canTalon.set(map.getLeftMaster().getPort());
+//
+//		UnitlessCANTalonSRX sr1 = new UnitlessCANTalonSRX(map.getRightSlave(1));
+//		sr1.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+//		sr1.canTalon.set(map.getRightMaster().getPort());
+
+		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getRightSlaveList()) {
+			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
+			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+			talonObject.canTalon.set(map.getRightMaster().getPort());
+		}
+		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getLeftSlaveList()) {
+			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
+			talonObject.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
+			talonObject.canTalon.set(map.getLeftMaster().getPort());
+		}
 
 		// TODO take this out
 		leftTPointStatus = new CANTalon.MotionProfileStatus();
