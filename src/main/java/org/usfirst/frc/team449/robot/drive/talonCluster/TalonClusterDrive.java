@@ -11,6 +11,7 @@ import org.usfirst.frc.team449.robot.components.UnitlessCANTalonSRX;
 import org.usfirst.frc.team449.robot.drive.DriveSubsystem;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ExecuteProfile;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.OpTankDrive;
+import org.usfirst.frc.team449.robot.drive.talonCluster.commands.PIDTest;
 import org.usfirst.frc.team449.robot.drive.talonCluster.commands.ois.TankOI;
 import org.usfirst.frc.team449.robot.mechanism.doubleflywheelshooter.commands.PIDTune;
 
@@ -37,6 +38,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	public CANTalon.MotionProfileStatus rightTPointStatus;
 	private long startTime;
 	private String logFN = "driveLog.csv";
+	double maxSpeed;
 
 	public TalonClusterDrive(maps.org.usfirst.frc.team449.robot.drive.talonCluster.TalonClusterDriveMap
 			                         .TalonClusterDrive map, TankOI oi) {
@@ -49,25 +51,6 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 
 		rightMaster = new UnitlessCANTalonSRX(map.getRightMaster());
 		leftMaster = new UnitlessCANTalonSRX(map.getLeftMaster());
-
-//		rightMaster = new UnitlessCANTalonSRX(map.getRightSlave(1));
-//		leftMaster = new UnitlessCANTalonSRX(map.getLeftSlave(1));
-
-//		UnitlessCANTalonSRX sl0 = new UnitlessCANTalonSRX(map.getLeftSlave(0));
-//		sl0.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//		sl0.canTalon.set(map.getLeftMaster().getPort());
-//
-//		UnitlessCANTalonSRX sr0 = new UnitlessCANTalonSRX(map.getRightSlave(0));
-//		sr0.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//		sr0.canTalon.set(map.getRightMaster().getPort());
-//
-//		UnitlessCANTalonSRX sl1 = new UnitlessCANTalonSRX(map.getLeftSlave(1));
-//		sl1.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//		sl1.canTalon.set(map.getLeftMaster().getPort());
-//
-//		UnitlessCANTalonSRX sr1 = new UnitlessCANTalonSRX(map.getRightSlave(1));
-//		sr1.canTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
-//		sr1.canTalon.set(map.getRightMaster().getPort());
 
 		for (UnitlessCANTalonSRXMap.UnitlessCANTalonSRX talon : map.getRightSlaveList()) {
 			UnitlessCANTalonSRX talonObject = new UnitlessCANTalonSRX(talon);
@@ -108,8 +91,8 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	 * @param right Right throttle value
 	 */
 	public void setDefaultThrottle(double left, double right) {
-//		setPIDThrottle(left, right);
-		setVBusThrottle(1, 1);
+		setVBusThrottle(left, right);
+//		setVBusThrottle(1, 1);
 	}
 
 	public void logData() {
@@ -132,8 +115,13 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 
 			fw.write(sb.toString());
 
+			if (leftMaster.getSpeed() > maxSpeed)
+				maxSpeed = leftMaster.getSpeed();
+			if (rightMaster.getSpeed() > maxSpeed)
+				maxSpeed = rightMaster.getSpeed();
 			SmartDashboard.putNumber("Left", leftMaster.getSpeed());
 			SmartDashboard.putNumber("Right", rightMaster.getSpeed());
+			SmartDashboard.putNumber("Max Speed", maxSpeed);
 			SmartDashboard.putNumber("Throttle", leftMaster.nativeToRPS(leftMaster.canTalon.getSetpoint()));
 			SmartDashboard.putNumber("Heading", navx.pidGet());
 			SmartDashboard.putNumber("Left Setpoint", leftMaster.nativeToRPS(leftMaster.canTalon.getSetpoint()));
@@ -147,6 +135,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 
 	@Override
 	protected void initDefaultCommand() {
+		maxSpeed = -1;
 		logFN = "/home/lvuser/driveLog-" + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".csv";
 		try (PrintWriter writer = new PrintWriter(logFN)) {
 			writer.close();
@@ -155,7 +144,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		}
 
 
-		setDefaultCommand(new ExecuteProfile(this));
+		setDefaultCommand(new PIDTest(this));
 //		setDefaultCommand(new OpTankDrive(this, oi));
 
 		startTime = System.nanoTime();
