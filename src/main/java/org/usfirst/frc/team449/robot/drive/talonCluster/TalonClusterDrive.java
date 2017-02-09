@@ -2,8 +2,10 @@ package org.usfirst.frc.team449.robot.drive.talonCluster;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import maps.org.usfirst.frc.team449.robot.components.DoubleSolenoidMap;
 import maps.org.usfirst.frc.team449.robot.components.ToleranceBufferAnglePIDMap;
 import maps.org.usfirst.frc.team449.robot.components.UnitlessCANTalonSRXMap;
 import org.usfirst.frc.team449.robot.components.NavxSubsystem;
@@ -39,6 +41,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 	// TODO take this out after testing
 	public CANTalon.MotionProfileStatus leftTPointStatus;
 	public CANTalon.MotionProfileStatus rightTPointStatus;
+	public DoubleSolenoid shifter;
 	private long startTime;
 	private String logFN = "driveLog.csv";
 
@@ -50,6 +53,7 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		this.navx = new AHRS(SPI.Port.kMXP);
 		this.turnPID = map.getTurnPID();
 		this.straightPID = map.getStraightPID();
+		this.shifter = new DoubleSolenoid(map.getShifter().getForward(), map.getShifter().getReverse());
 
 		rightMaster = new UnitlessCANTalonSRX(map.getRightMaster());
 		leftMaster = new UnitlessCANTalonSRX(map.getLeftMaster());
@@ -152,12 +156,19 @@ public class TalonClusterDrive extends DriveSubsystem implements NavxSubsystem {
 		return navx.pidGet();
 	}
 
+	public void setSmallGear(boolean setSmall){
+		if (setSmall)
+			shifter.set(DoubleSolenoid.Value.kReverse);
+		else
+			shifter.set(DoubleSolenoid.Value.kForward);
+	}
+
 	/**
 	 * Simple helper function for clipping output to the -1 to 1 scale.
 	 * @param in The number to be processed.
 	 * @return That number, clipped to 1 if it's greater than 1 or clipped to -1 if it's less than -1.
 	 */
-	private static double clipToOne(double in){
+	private static double clipToOne(double in) {
 		if (in > 1)
 			return 1;
 		else if (in < -1)
