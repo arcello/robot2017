@@ -61,6 +61,36 @@ public class UnitlessCANTalonSRX extends Component {
 		canTalon.enableBrakeMode(m.getBrakeMode());
 	}
 
+	/*
+	Same as the other constructor. but allows for specifying a feedforward term.
+	 */
+	public UnitlessCANTalonSRX(maps.org.usfirst.frc.team449.robot.components.FeedforwardUnitlessCANTalonSRXMap.FeedforwardUnitlessCANTalonSRX m){
+		canTalon = new CANTalon(m.getPort());
+		maxSpeed = m.getMaxSpeed();
+		encoderCPR = m.getEncoderCPR();
+		canTalon.setFeedbackDevice(CANTalon.FeedbackDevice.valueOf(m.getFeedbackDevice().getNumber()));
+		feedbackDevice = CANTalon.FeedbackDevice.valueOf(m.getFeedbackDevice().getNumber());
+		canTalon.reverseSensor(m.getReverseSensor());
+		canTalon.reverseOutput(m.getReverseOutput());
+		canTalon.setInverted(m.getIsInverted());
+		canTalon.configNominalOutputVoltage
+				(+m.getNominalOutVoltage(), -m.getNominalOutVoltage());
+		canTalon.configPeakOutputVoltage(+m.getPeakOutVoltage(),
+				-m.getPeakOutVoltage());
+
+		canTalon.setPID(m.getP(), m.getI(), m.getD(), m.getF(),0,0,0);
+		canTalon.setProfile(0);
+
+		canTalon.ConfigFwdLimitSwitchNormallyOpen(m.getFwdLimNormOpen());
+		canTalon.ConfigRevLimitSwitchNormallyOpen(m.getRevLimNormOpen());
+		canTalon.enableLimitSwitch(m.getFwdLimEnabled(), m.getRevLimEnabled());
+		canTalon.enableForwardSoftLimit(m.getFwdSoftLimEnabled());
+		canTalon.setForwardSoftLimit(m.getFwdSoftLimVal());
+		canTalon.enableReverseSoftLimit(m.getRevSoftLimEnabled());
+		canTalon.setReverseSoftLimit(m.getRevSoftLimVal());
+		canTalon.enableBrakeMode(m.getBrakeMode());
+	}
+
 	/**
 	 * Give a PercentVbus setpoint (set to PercentVbus mode and set)
 	 *
@@ -107,6 +137,9 @@ public class UnitlessCANTalonSRX extends Component {
 		return (nat / (encoderCPR * 4)) * 10; //4 edges per count, and 10 100ms per second.
 	}
 
+	/**
+	 * @return the rotational speed in RPS
+	 */
 	public double getSpeed() {
 		return nativeToRPS(canTalon.getEncVelocity());
 	}

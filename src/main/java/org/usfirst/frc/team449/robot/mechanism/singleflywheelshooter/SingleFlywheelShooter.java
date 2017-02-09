@@ -27,8 +27,9 @@ public class SingleFlywheelShooter extends MappedSubsystem {
 			                             .SingleFlywheelShooterMap.SingleFlywheelShooter map) {
 		super(map.getMechanism());
 		this.map = map;
+		//getTalon() returns a FeedforwardUnitlessCANTalonSRX, but we have a constructor for that!
 		this.talon = new UnitlessCANTalonSRX(map.getTalon());
-		System.out.println("Shooter F: " + talon.canTalon.getF());
+//		System.out.println("Shooter F: " + talon.canTalon.getF());
 	}
 
 	/**
@@ -54,28 +55,32 @@ public class SingleFlywheelShooter extends MappedSubsystem {
 	}
 
 	public void logData(double throttle) {
-		maxError = Math.max(talon.canTalon.getClosedLoopError(), maxError);
-		SmartDashboard.putNumber("max error", maxError);
-		SmartDashboard.putNumber("speed", talon.canTalon.getPulseWidthVelocity());
+//		maxError = Math.max(talon.canTalon.getClosedLoopError(), maxError);
+//		SmartDashboard.putNumber("max error", maxError);
+//		SmartDashboard.putNumber("speed", talon.canTalon.getPulseWidthVelocity());
+//
+//		try (FileWriter fw = new FileWriter("/home/lvuser/driveLog.csv", true)) {
+//			StringBuilder sb = new StringBuilder();
+//			sb.append((System.nanoTime() - startTime) / 100);
+//			sb.append(",");
+//			sb.append(talon.getSpeed());
+//			sb.append(",");
+//			SmartDashboard.putNumber("talon", talon.getSpeed());
+//			sb.append(throttle);
+//			sb.append("\n");
+//			SmartDashboard.putNumber("Throttle", throttle);
+//			SmartDashboard.putNumber("Setpoint", talon.canTalon.getSetpoint());
+//			SmartDashboard.putNumber("Error", talon.canTalon.getError());
+//			SmartDashboard.putNumber("F", talon.canTalon.getF());
+//			SmartDashboard.putNumber("voltage", talon.canTalon.getOutputVoltage());
+//			fw.write(sb.toString());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	}
 
-		try (FileWriter fw = new FileWriter("/home/lvuser/driveLog.csv", true)) {
-			StringBuilder sb = new StringBuilder();
-			sb.append((System.nanoTime() - startTime) / 100);
-			sb.append(",");
-			sb.append(talon.getSpeed());
-			sb.append(",");
-			SmartDashboard.putNumber("talon", talon.getSpeed());
-			sb.append(throttle);
-			sb.append("\n");
-			SmartDashboard.putNumber("Throttle", throttle);
-			SmartDashboard.putNumber("Setpoint", talon.canTalon.getSetpoint());
-			SmartDashboard.putNumber("Error", talon.canTalon.getError());
-			SmartDashboard.putNumber("F", talon.canTalon.getF());
-			SmartDashboard.putNumber("voltage", talon.canTalon.getOutputVoltage());
-			fw.write(sb.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void logData(){
+		SmartDashboard.putNumber("Flywheel speed",talon.getSpeed());
 	}
 
 
