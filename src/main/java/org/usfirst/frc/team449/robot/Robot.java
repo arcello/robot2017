@@ -58,8 +58,8 @@ public class Robot extends IterativeRobot {
 		//		System.out.println("Constructed SingleFlywheelShooter");
 		//		shooterSubsystem = new DoubleFlywheelShooter(cfg.getShooter());
 		//		System.out.println("Constructed DoubleFlywheelShooter");
-		//		pneumaticsSubsystem = new PneumaticsSubsystem(cfg.getPneumatics());
-		//		System.out.println("Constructed PneumaticsSubsystem");
+				pneumaticsSubsystem = new PneumaticsSubsystem(cfg.getPneumatics());
+				System.out.println("Constructed PneumaticsSubsystem");
 
 		//intakeSubsystem = new Intake2017(cfg.getIntake(), oiSubsystem);
 
